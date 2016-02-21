@@ -4,12 +4,12 @@ This software basically emulates the hardware function of the Target Blu Eye. Th
 
 Dependencies:
 	- rtl-sdr
-	- rtl_power_fftw: https://github.com/AD-Vega/rtl-power-fftw.git
 	- libfftw3-dev
 	- libtclap-dev
 	- librtlsdr-dev
 	- libusb-1.0-0-dev
 	- cmake
+	- rtl_power_fftw: https://github.com/AD-Vega/rtl-power-fftw.git
 
 Further documentation will be provided once the project is at least nearing completion.
 
