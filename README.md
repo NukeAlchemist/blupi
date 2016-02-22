@@ -14,7 +14,11 @@ Installing these packages (on a Debian Jessie system) should also install all of
 	- cmake
 	- rtl_power_fftw: https://github.com/AD-Vega/rtl-power-fftw.git
 
-Further documentation will be provided once the project is at least nearing completion.
+### Installation: ###
+Install/build the dependencies, then copy or clone the blupi-scan.py script. Make sure the script copies as an executable or use chmod +x blupi-scan.py to make it so.
+
+### Notes: ###
+	- Further documentation will be provided once the project is at least nearing completion.
 
 ### TO-DO: ###
 	- Add alert script (GPIO and potentially audio)
