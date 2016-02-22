@@ -36,16 +36,20 @@ if __name__ == '__main__':
 
 		rtlscan = sp.Popen([powerfftw_path, frange, otherargs, bstime, ppm], stdout=sp.PIPE, stderr=dvnll, shell=False)
 
+		# Let's see what's going on with rtl_power_fftw
 		lines_iterator = iter(rtlscan.stdout.readline, b"")
 		for line in lines_iterator:
 
+			# Git rid of the garbage output:
 			if '#' in line or not line.strip():
 				floats = [0,-999]
 			else:
 				floats = map(float, line.split())
 
+			# There be cops nearby...
 			if floats[1] >= alarmthresh:
 
+				# Still developing--will provide alert function once the whole noisy frequency issue is solved.
 				freq_temp = round(floats[0] /1000000, 3)
 				print "At " + time.strftime("%H:%M:%S") + ", a " + str(round(floats[1], 1)) + " dB/Hz signal was detected at " + str(freq_temp) + " MHz."
 
