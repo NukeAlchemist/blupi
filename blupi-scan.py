@@ -43,6 +43,8 @@ if __name__ == '__main__':
 			# Git rid of the garbage output:
 			if '#' in line or not line.strip():
 				floats = [0,-999]
+
+			# Convert output to a 2-element array of floats:
 			else:
 				floats = map(float, line.split())
 
