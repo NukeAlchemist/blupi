@@ -25,7 +25,7 @@ dvnll = open(devnull, 'wb')
 bline = "-B " + baseline_path
 ppm = "-p " + str(ppm_offset)
 
-# Start your engines!
+# Start your engines...
 if __name__ == '__main__':
 
 	# Ready, set, GO!
@@ -44,11 +44,11 @@ if __name__ == '__main__':
 			if '#' in line or not line.strip():
 				floats = [0,-999]
 
-			# Convert output to a 2-element array of floats:
+			# Convert output to a 2-element array of floats (frequency, strength):
 			else:
 				floats = map(float, line.split())
 
-			# There be cops nearby...
+			# There be cops nearby!
 			if floats[1] >= alarmthresh:
 
 				# Still developing--will provide alert function once the whole noisy frequency issue is solved.
