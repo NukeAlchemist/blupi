@@ -8,7 +8,7 @@ from os import devnull
 # Global variables until we have a config file
 fmin = 151000000
 fmax = 156500000
-alarmthresh = 65
+alarmthresh = -3
 powerfftw_path = "/usr/local/bin/rtl_power_fftw"
 fftbins = 512
 otherargs = "-c"
@@ -25,17 +25,14 @@ dvnll = open(devnull, 'wb')
 bline = "-B " + baseline_path
 ppm = "-p " + str(ppm_offset)
 
-# Let's run this bitch!
+# Ready, set, GO!
 if __name__ == '__main__':
-
-	# Housekeeping:
-	floats = []
 
 	# Start 'er up!
 	try:
 		print "Starting up at", time.strftime("%H:%M:%S") + "..."
 		
-		# Insert baseline file generation subroutine here once main script is completed
+		# Insert baseline file generation subroutine here once I figure out how that whole process works...
 
 		rtlscan = sp.Popen([powerfftw_path, frange, otherargs, bstime, ppm], stdout=sp.PIPE, stderr=dvnll, shell=False)
 
@@ -43,7 +40,7 @@ if __name__ == '__main__':
 		for line in lines_iterator:
 
 			if '#' in line or not line.strip():
-				floats = [0,-99]
+				floats = [0,-999]
 			else:
 				floats = map(float, line.split())
 
