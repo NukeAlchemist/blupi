@@ -8,11 +8,13 @@ from os import devnull
 # Global variables until we have a config file
 fmin = 151000000
 fmax = 156500000
-alarmthresh = 4
+alarmthresh = -3
 powerfftw_path = "/usr/local/bin/rtl_power_fftw"
 fftbins = 512
 otherargs = "-c"
 block_scan_time = 0.75
+baseline_path = "/home/evan/build/baseline_data.dat"
+ppm_offset = 56
 
 # Parameter formatting
 frange = str(fmin) + ":" + str(fmax)
@@ -20,6 +22,8 @@ frange = "-f " + frange
 fftbins = "-b " + str(fftbins)
 bstime = "-t " + str(block_scan_time)
 dvnll = open(devnull, 'wb')
+bline = "-B " + baseline_path
+ppm = "-p " + str(ppm_offset)
 
 # Let's run this bitch!
 if __name__ == '__main__':
@@ -27,12 +31,13 @@ if __name__ == '__main__':
 	# Housekeeping:
 	floats = []
 
+	# Start 'er up!
 	try:
-		print "Starting up at", time.strftime("%H:%M:%S")
+		print "Starting up at", time.strftime("%H:%M:%S") + "..."
 		
 		# Insert baseline file generation subroutine here once main script is completed
 
-		rtlscan = sp.Popen([powerfftw_path, frange, fftbins, otherargs, bstime], stdout=sp.PIPE, stderr=dvnll, shell=False)
+		rtlscan = sp.Popen([powerfftw_path, frange, fftbins, otherargs, bstime, ppm], stdout=sp.PIPE, stderr=dvnll, shell=False)
 
 		lines_iterator = iter(rtlscan.stdout.readline, b"")
 		for line in lines_iterator:
