@@ -10,16 +10,15 @@ fmin = 151000000
 fmax = 156500000
 alarmthresh = -3
 powerfftw_path = "/usr/local/bin/rtl_power_fftw"
-fftbins = 512
+fftb = 1024
 otherargs = "-c"
-block_scan_time = 0.75
+block_scan_time = 1
 baseline_path = "/home/evan/build/baseline_data.dat"
 ppm_offset = 56
 
 # Parameter formatting
-frange = str(fmin) + ":" + str(fmax)
-frange = "-f " + frange
-fftbins = "-b " + str(fftbins)
+frange = "-f " + str(fmin) + ":" + str(fmax)
+fftbins = "-b " + str(fftb)
 bstime = "-t " + str(block_scan_time)
 dvnll = open(devnull, 'wb')
 bline = "-B " + baseline_path
