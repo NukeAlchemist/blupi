@@ -17,11 +17,11 @@ Hardware support is currently limited to the Raspberry Pi 2 B, though this could
 Installing these packages (on a Debian Jessie system) should also install all of their necessary dependencies for a complete install.
 
 ### Installation:
-Install/build the dependencies, then copy or clone the blupi-scan.py script. Make sure the script copies as an executable or use chmod +x blupi-scan.py to make it so.
+Install/build the dependencies, then copy or clone the blupi-scan.py script. Make sure the script copies as an executable or use 'chmod +x blupi-scan.py' to make it so.
 
 ### Notes:
 	- Further documentation will be provided once the project is at least nearing completion.
-	- Run 'rtl_test -p' for a few minutes to find out your receiver's necessary error correciton in PPM.
+	- Run rtl_test -p for a few minutes to find out your receiver's necessary error correciton in PPM.
 
 ### TO-DO:
 	- Add alert script (GPIO and potentially audio)
