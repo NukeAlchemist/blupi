@@ -21,6 +21,7 @@ Install/build the dependencies, then copy or clone the blupi-scan.py script. Mak
 
 ### Notes: ###
 	- Further documentation will be provided once the project is at least nearing completion.
+	- Run rtl_test -p for a few minutes to find out your receiver's necessary error correciton in PPM.
 
 ### TO-DO: ###
 	- Add alert script (GPIO and potentially audio)
