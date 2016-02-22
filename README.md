@@ -1,4 +1,4 @@
-# Blu Pie #
+# BluPi #
 
 ### Overview ###
 
