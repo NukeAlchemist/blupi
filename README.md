@@ -5,7 +5,6 @@
 This script emulates the hardware function of the Target BluEye emergency services alert system. The concept is to use a rtl-sdr compatible radio receiver to continuously scan the typical emergency band radio frequencies using rtl_power_fftw as a scanning frontend to rtl-sdr, and then filter/process the scan results for potential emergency radio sources.
 
 ### Dependencies: ###
-Installing these packages (on a Debian Jessie system) should also install all of their necessary dependencies for a complete install.
 	- rtl-sdr
 	- libfftw3-dev
 	- libtclap-dev
@@ -13,6 +12,7 @@ Installing these packages (on a Debian Jessie system) should also install all of
 	- libusb-1.0-0-dev
 	- cmake
 	- rtl_power_fftw: https://github.com/AD-Vega/rtl-power-fftw.git
+Installing these packages (on a Debian Jessie system) should also install all of their necessary dependencies for a complete install.
 
 ### Installation: ###
 Install/build the dependencies, then copy or clone the blupi-scan.py script. Make sure the script copies as an executable or use chmod +x blupi-scan.py to make it so.
