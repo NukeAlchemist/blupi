@@ -25,10 +25,10 @@ dvnll = open(devnull, 'wb')
 bline = "-B " + baseline_path
 ppm = "-p " + str(ppm_offset)
 
-# Ready, set, GO!
+# Start your engines!
 if __name__ == '__main__':
 
-	# Start 'er up!
+	# Ready, set, GO!
 	try:
 		print "Starting up at", time.strftime("%H:%M:%S") + "..."
 		
@@ -40,7 +40,7 @@ if __name__ == '__main__':
 		lines_iterator = iter(rtlscan.stdout.readline, b"")
 		for line in lines_iterator:
 
-			# Git rid of the garbage output:
+			# Take out the garbage output:
 			if '#' in line or not line.strip():
 				floats = [0,-999]
 
