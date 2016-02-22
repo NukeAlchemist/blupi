@@ -8,7 +8,7 @@ from os import devnull
 # Global variables until we have a config file
 fmin = 151000000
 fmax = 156500000
-alarmthresh = -3
+alarmthresh = 65
 powerfftw_path = "/usr/local/bin/rtl_power_fftw"
 fftbins = 512
 otherargs = "-c"
@@ -37,7 +37,7 @@ if __name__ == '__main__':
 		
 		# Insert baseline file generation subroutine here once main script is completed
 
-		rtlscan = sp.Popen([powerfftw_path, frange, fftbins, otherargs, bstime, ppm], stdout=sp.PIPE, stderr=dvnll, shell=False)
+		rtlscan = sp.Popen([powerfftw_path, frange, otherargs, bstime, ppm], stdout=sp.PIPE, stderr=dvnll, shell=False)
 
 		lines_iterator = iter(rtlscan.stdout.readline, b"")
 		for line in lines_iterator:
