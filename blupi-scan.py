@@ -29,7 +29,6 @@ def bline_build(fmin, fmax, bins, b_time, offset):
 	# INSERT CODE TO determine optimum gain (SNR calculation)
 
 	# Define and format parameters
-	damnarray = []
 	binsize = 2 * (fmax - fmin) / bins
 	freq = "-f " + str(fmin) + ":" + str(fmax) + ":" + str(binsize)
 	ppm = "-p " + str(offset)
