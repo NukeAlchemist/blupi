@@ -7,12 +7,12 @@ This script emulates the hardware function of the Target BluEye emergency servic
 Hardware support is currently limited to the Raspberry Pi 2 B, though this could feasibly work on many other systems. Recommended base system is the Raspbian Jessie LITE available here: https://www.raspberrypi.org/downloads/raspbian/ It *should* be possible to run this on a RPi1 as it doesn't consume too much processor power, however I haven't tested it yet.
 
 ### Dependencies:
-	- rtl-sdr (keenerd experimental branch: https://github.com/keenerd/rtl-sdr.git)
 	- libfftw3-dev
 	- libtclap-dev
 	- librtlsdr-dev
 	- libusb-1.0-0-dev
 	- cmake
+	- rtl-sdr (keenerd experimental branch: https://github.com/keenerd/rtl-sdr.git)
 	- rtl_power_fftw: https://github.com/AD-Vega/rtl-power-fftw.git
 Installing these packages (on a Debian Jessie system) should also install all of their necessary dependencies for a complete install.
 
