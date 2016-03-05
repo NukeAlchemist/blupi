@@ -25,4 +25,4 @@ Install/build the dependencies, then copy or clone the blupi-scan.py script. Mak
 
 ### TO-DO:
 	- Add alert script (GPIO and potentially audio)
-	- Add baseline data generation script (still need to figure out how to generate and apply this using rtl_power_fftw)
+	- Add GPS funtionality to allow speed-based alert sensitivity
