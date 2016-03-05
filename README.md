@@ -20,9 +20,10 @@ Installing these packages (on a Debian Jessie system) should also install all of
 Install/build the dependencies, then copy or clone the blupi-scan.py script. Make sure the script copies as an executable or use `chmod +x blupi-scan.py` to make it so.
 
 ### Notes:
-	- Further documentation will be provided once the project is at least nearing completion.
+	- Further documentation will be provided once the project is nearing completion.
 	- Run rtl_test -p for a few minutes to find out your receiver's necessary error correciton in PPM.
 
 ### TO-DO:
 	- Add alert script (GPIO and potentially audio)
 	- Add GPS funtionality to allow speed-based alert sensitivity
+	- Create RPi2/RPi3 pre-built image (once project is finished, of course)
