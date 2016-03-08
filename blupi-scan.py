@@ -6,22 +6,36 @@ import os
 import subprocess as sp
 from os import devnull
 from collections import deque
+from math import sqrt
 
 # Global variables until we have a config file
-freqmin = 855000000
-freqmax = 860000000
-sensitivity = 35
+freqmin = 854000000 # DO NOT CHANGE
+freqmax = 860000000 # DO NOT CHANGE
+sensitivity = 70
+sysdamping = 10
+freqdamping = 30
 powerfftw_path = "/usr/local/bin/rtl_power_fftw"
-fftb = 800
-otherargs = "-c"
-block_scan_time = .75
+baseline_path = "../test/baseline_data.dat"
+totalbins = 960 * 3 # DO NOT CHANGE
 ppm_offset = 56
+
 
 # Global that we'll keep
 dvnll = open(devnull, 'wb')
 
 # Functions
-def average(s): return sum(s) / float(len(s))
+def average(p): return sum(p) / float(len(p))
+
+def variance(p): return map(lambda x: (x - average(p))**2, p)
+
+def std_dev(p): return sqrt(average(variance(p)))
+
+def alert(p):
+	# Still developing...need to provide true alert functionality
+
+	freq_temp = round(p[0] /1000000, 4)
+	print "At " + time.strftime("%H:%M:%S") + ", a " + str(round(p[1], 1)) + " dB/Hz signal was detected at " + str(freq_temp) + " MHz."
+
 
 # Start your engines...
 if __name__ == '__main__':
@@ -30,42 +44,72 @@ if __name__ == '__main__':
 
 	# Parameter formatting
 	freqrange = "-f " + str(freqmin) + ":" + str(freqmax)
+
+	fftb = totalbins / 3 # NEED TO DEVELOP
+
 	fftbins = "-b " + str(fftb)
-	#bstime = "-t " + str(block_scan_time)
-	bstime = ""
 	ppm = "-p " + str(ppm_offset)
-	rolling = deque([])
+	otherargs = "-c"
+	rolling = []
+	rolling_avg = deque([])
+	sweep = deque([])
+	i = 0
+	stddev = 100
+	baseline_file = "-B " + str(baseline_path)
 
 	# Ready, set, GO!
 	try:
 		print "Starting up at", time.strftime("%H:%M:%S") + "..."
 		
-		rpf = sp.Popen([powerfftw_path, freqrange, bstime, otherargs, ppm], stdout=sp.PIPE, stderr=dvnll, shell=False)
+		# Check for baseline file
+		#if not os.path.isfile(baseline_path):
+		#	# Generate said baseline file
+		#	stddev = 10 # THIS IS MEANINGLESS
+
 		#NOTE: Minus bstime and baseline_arg (above)
+		rpf = sp.Popen([powerfftw_path, freqrange, otherargs, ppm, fftbins, baseline_file], stdout=sp.PIPE, stderr=dvnll, shell=False)
 
 		# Let's see what's going on with rtl_power_fftw
 		for line in iter(rpf.stdout.readline, b""):
-			# Take out the garbage output
-			if '#' in line or not line.strip():
-				floats = [0,-999]
 
-			# Convert output to a 2-element array of floats (frequency, strength) and maintain rolling/roling_avg
-			else:
+			# Ignore garbage output
+			if not ('#' in line or not line.strip()):
+
 				floats = map(float, line.split())
-				rolling.append(floats[1])
+
+				# Create 2D array if it isn't already defined
+				if len(rolling) < totalbins: rolling.append(deque([]))
+
+				rolling[i].append(floats[1])
+				sweep.append(floats[1])
 
 				# Let's start filtering...
-				if len(rolling) >= 2500:
-					rolling.popleft()
-					rolling_avg = average(rolling)
-					alarmthresh = rolling_avg + sensitivity
+				if len(rolling[i]) >= freqdamping:
+					rolling[i].popleft()
+					alarmthresh = average(rolling[i]) + stddev / sensitivity * 18000
+
+					#if i == 0: print floats[1], alarmthresh - floats[1]
 
 					# There be coppers!
 					if floats[1] > alarmthresh:
 
-						# Still developing...need to provide true alert functionality
-						freq_temp = round(floats[0] /1000000, 4)
-						print "At " + time.strftime("%H:%M:%S") + ", a " + str(round(floats[1], 1)) + " dB/Hz signal was detected at " + str(freq_temp) + " MHz."
+						alert(floats)
+
+				# Maintain sweep length at the total number of samples
+				if len(sweep) > totalbins: sweep.popleft()
+
+				# Increment or reset indexer (i)
+				if i < totalbins - 1: i = i + 1
+				else: 
+					i = 0
+
+					# Maintain rolling_avg
+					rolling_avg.append(average(sweep))
+
+					if len(rolling_avg) > sysdamping: 
+						rolling_avg.popleft()
+						stddev = std_dev(rolling_avg)
+
 
 	except (KeyboardInterrupt, SystemExit): # Press ctrl-c
 
