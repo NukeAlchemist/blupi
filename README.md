@@ -4,7 +4,7 @@
 
 This script emulates the hardware function of the Target BluEye emergency services alert system. The concept is to use a rtl-sdr compatible radio receiver to continuously scan the typical emergency band radio frequencies using `rtl_power_fftw` as a scanning frontend to rtl-sdr, and then filter/process the scan results for potential emergency radio sources.
 
-Hardware support is currently limited to the Raspberry Pi 2 B, though this could feasibly work on many other systems. Recommended base system is the Raspbian Jessie LITE available here: https://www.raspberrypi.org/downloads/raspbian/ It *should* be possible to run this on a RPi1 as it doesn't consume too much processor power, however I haven't tested it yet.
+Hardware support is currently limited to the Raspberry Pi 2/3 B, though this could feasibly work on many other systems. Recommended base system is the Raspbian Jessie LITE available here: https://www.raspberrypi.org/downloads/raspbian/ It *should* be possible to run this on a RPi1 as it doesn't consume too much processor power, however I haven't tested it yet.
 
 ### Dependencies:
 	- libfftw3-dev
