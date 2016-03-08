@@ -15,7 +15,7 @@ sensitivity = 70
 sysdamping = 10
 freqdamping = 30
 powerfftw_path = "/usr/local/bin/rtl_power_fftw"
-baseline_path = "../test/baseline_data.dat"
+baseline_path = "baseline_data.dat"
 totalbins = 960 * 3 # DO NOT CHANGE
 ppm_offset = 56
 
@@ -86,7 +86,7 @@ if __name__ == '__main__':
 				# Let's start filtering...
 				if len(rolling[i]) >= freqdamping:
 					rolling[i].popleft()
-					alarmthresh = average(rolling[i]) + stddev / sensitivity * 18000
+					alarmthresh = average(rolling[i]) + stddev / sensitivity * 20000
 
 					#if i == 0: print floats[1], alarmthresh - floats[1]
 
