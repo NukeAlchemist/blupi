@@ -11,9 +11,9 @@ from math import sqrt
 # Global variables until we have a config file
 freqmin = 854000000 # DO NOT CHANGE
 freqmax = 860000000 # DO NOT CHANGE
-sensitivity = 70
+sensitivity = 50
 sysdamping = 10
-freqdamping = 30
+freqdamping = 100
 powerfftw_path = "/usr/local/bin/rtl_power_fftw"
 baseline_path = "baseline_data.dat"
 totalbins = 960 * 3 # DO NOT CHANGE
@@ -86,7 +86,7 @@ if __name__ == '__main__':
 				# Let's start filtering...
 				if len(rolling[i]) >= freqdamping:
 					rolling[i].popleft()
-					alarmthresh = average(rolling[i]) + stddev / sensitivity * 20000
+					alarmthresh = average(rolling[i]) + stddev / sensitivity * 25000
 
 					#if i == 0: print floats[1], alarmthresh - floats[1]
 
