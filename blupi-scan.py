@@ -18,7 +18,7 @@ powerfftw_path = "/usr/local/bin/rtl_power_fftw"
 baseline_path = "baseline_data.dat"
 totalbins = 960 * 3 # DO NOT CHANGE
 ppm_offset = 56
-
+bline_int_t = 600 # Set to around 600 (10m)
 
 # Global that we'll keep
 dvnll = open(devnull, 'wb')
@@ -31,11 +31,23 @@ def variance(p): return map(lambda x: (x - average(p))**2, p)
 def std_dev(p): return sqrt(average(variance(p)))
 
 def alert(p):
-	# Still developing...need to provide true alert functionality
 
-	freq_temp = round(p[0] /1000000, 4)
-	print "At " + time.strftime("%H:%M:%S") + ", a " + str(round(p[1], 1)) + " dB/Hz signal was detected at " + str(freq_temp) + " MHz."
+	# Still developing...need to provide true alert functionality (GPIO, audio, etc)
+	freq = round(p[0] /1000000, 4)
+	print "At " + time.strftime("%H:%M:%S") + ", a " + str(round(p[1], 1)) + " dB/Hz signal was detected at " + str(freq) + " MHz."
 
+def bline_build(fmin, fmax, bins, b_time, offset, bpath):
+	
+	t = "-t " + str(b_time)
+	array = []
+	spect = "-f " + str(fmin) + ":" + str(fmax)
+	b_bins = "-b " + str(bins/3)
+
+	base_gen = sp.Popen([powerfftw_path, spect, t, offset, b_bins], stdout=sp.PIPE, stderr=dvnll, shell=False)
+
+	for line in iter(base_gen.stdout.readline, b""):
+
+		with open(baseline_path, 'a') as baselinefile: baselinefile.write(line + '\n')
 
 # Start your engines...
 if __name__ == '__main__':
@@ -43,7 +55,7 @@ if __name__ == '__main__':
 	# Import settings file here...
 
 	# Parameter formatting
-	freqrange = "-f " + str(freqmin) + ":" + str(freqmax)
+	spect = "-f " + str(freqmin) + ":" + str(freqmax)
 
 	fftb = totalbins / 3 # NEED TO DEVELOP
 
@@ -56,18 +68,22 @@ if __name__ == '__main__':
 	i = 0
 	stddev = 100
 	baseline_file = "-B " + str(baseline_path)
+	
 
 	# Ready, set, GO!
 	try:
 		print "Starting up at", time.strftime("%H:%M:%S") + "..."
 		
 		# Check for baseline file
-		#if not os.path.isfile(baseline_path):
-		#	# Generate said baseline file
-		#	stddev = 10 # THIS IS MEANINGLESS
+		if not os.path.isfile(baseline_path):
 
-		#NOTE: Minus bstime and baseline_arg (above)
-		rpf = sp.Popen([powerfftw_path, freqrange, otherargs, ppm, fftbins, baseline_file], stdout=sp.PIPE, stderr=dvnll, shell=False)
+			print "I couldn't find a baseline file, so we're gonna generate one. This will take some time..."
+
+			# Generate said baseline file
+			bline_build(freqmin, freqmax, fftb, bline_int_t, ppm, baseline_path)
+			print "Baseline file generation completed at", time.strftime("%H:%M:%S") + ". Starting up!"
+
+		rpf = sp.Popen([powerfftw_path, spect, otherargs, ppm, fftbins, baseline_file], stdout=sp.PIPE, stderr=dvnll, shell=False)
 
 		# Let's see what's going on with rtl_power_fftw
 		for line in iter(rpf.stdout.readline, b""):
